@@ -1,0 +1,6 @@
+{
+  "appTitle": "spook_spiel",
+  "@appTitle": {
+    "description": "The title of the application"
+  }
+}
