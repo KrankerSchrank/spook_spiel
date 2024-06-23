@@ -1,4 +1,5 @@
 import 'dart:math' show Random;
+import 'attributes.dart';
 
 class Game {
   // Variables to store game state
@@ -17,6 +18,7 @@ class Game {
   var position = ['', '', '', '', '', '', '', '', '', ''];
   var used = [];
   var item = '';
+  Person besessen = Person();
 
   // Function to initialize the game
   Game() {
@@ -99,7 +101,8 @@ class Game {
                 buttonText = 'Du weißt nicht mit was du ${monster[lastPressedButtonIndex+1]} bannen sollst!';
               }
               else if (inventory.contains(bannPosition[lastPressedButtonIndex+1])) {
-                buttonText = 'Du hast ${monster[lastPressedButtonIndex+1]} mit ${bannPosition[lastPressedButtonIndex+1]} gebannt, Der Verräter ist ...!';
+                var bannen = besessen.hinweis();
+                buttonText = 'Du hast ${monster[lastPressedButtonIndex+1]} mit ${bannPosition[lastPressedButtonIndex+1]} gebannt, Der Verräter ist $bannen!';
                 used.add(bannPosition[lastPressedButtonIndex+1]);
                 inventory.remove(bannPosition[lastPressedButtonIndex+1]);
                 bannStatus[lastPressedButtonIndex+1] = 1;
@@ -115,7 +118,20 @@ class Game {
             break;
           case 14:
           // TODO: Implement Aufbrechen button
-            buttonText = 'Animal ${besessene[lastPressedButtonIndex]} plays with a toy!';
+            if (schluessel == 0) {
+              buttonText = 'Du hast keinen Universalschöüssel!';
+            }
+            else {
+              schluessel -= 1;
+              bool istBesessen = besessen.istPerson(besessene[lastPressedButtonIndex]);
+              if (istBesessen) {
+                buttonText = '${besessene[lastPressedButtonIndex]} war der Verräter, ihr gewinnt!';
+                isGameOver = true;
+              }
+              else {
+                buttonText = '${besessene[lastPressedButtonIndex]} ist nicht der Verräter, du kannst diese Person ausschließen!';
+              }
+            }
             break;
         default:
           return 'Error processing button press!';
@@ -124,7 +140,7 @@ class Game {
       return buttonText;
     }
     else {
-      return 'Select a Animal first!';
+      return 'Wähle erst einen Raum!';
     }
   }
 }
