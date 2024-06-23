@@ -50,6 +50,7 @@ class Game {
       String buttonText = '';
       switch (pressedButtonIndex) {
         case 10:
+          siebterSinn = 0;
           zeit += 1;
           item = '';
           if (position[lastPressedButtonIndex] == '') {
@@ -121,32 +122,32 @@ class Game {
               break;
             }
             if (siebterSinn == 0) {
-              buttonText = 'Du bist dir nicht Sicher mit was du ${monster[lastPressedButtonIndex+1]} bannen sollst!';
+              buttonText = 'Hier gibt es keine Monster!';
               break;
             }
             if (bannStatus[siebterSinn] == 1) {
-              buttonText = 'Du hast ${monster[lastPressedButtonIndex+1]} bereits gebannt!';
+              buttonText = 'Du hast ${monster[siebterSinn]} bereits gebannt!';
             }
             else {
-              if (bannPosition[lastPressedButtonIndex-1] == '') {
-                buttonText = 'Du weißt nicht mit was du ${monster[lastPressedButtonIndex-1]} bannen sollst!';
+              if (bannPosition[siebterSinn] == '') {
+                buttonText = 'Du weißt nicht mit was du ${monster[siebterSinn]} bannen sollst!';
               }
-              else if (inventory.contains(bannPosition[lastPressedButtonIndex-1])) {
+              else if (inventory.contains(bannPosition[siebterSinn])) {
                 var bannen = besessen.hinweis();
                 if (bannen == 'Du hast alle Hinweise gefunden!') {
-                  buttonText = 'Du hast ${monster[lastPressedButtonIndex-1]} gebannt, aber ihr habt schon alle Hinweise gefunden!';
-                  used.add(bannPosition[lastPressedButtonIndex-1]);
-                  inventory.remove(bannPosition[lastPressedButtonIndex-1]);
-                  bannStatus[lastPressedButtonIndex-1] = 1;
+                  buttonText = 'Du hast ${monster[siebterSinn]} gebannt, aber ihr habt schon alle Hinweise gefunden!';
+                  used.add(bannPosition[siebterSinn]);
+                  inventory.remove(bannPosition[siebterSinn]);
+                  bannStatus[siebterSinn] = 1;
                   break;
                 }
-                buttonText = 'Du hast ${monster[lastPressedButtonIndex-1]} mit ${bannPosition[lastPressedButtonIndex-1]} gebannt, Der Verräter ist $bannen!';
-                used.add(bannPosition[lastPressedButtonIndex-1]);
-                inventory.remove(bannPosition[lastPressedButtonIndex-1]);
-                bannStatus[lastPressedButtonIndex-1] = 1;
+                buttonText = 'Du hast ${monster[siebterSinn]} mit ${bannPosition[siebterSinn]} gebannt, Der Verräter ist $bannen!';
+                used.add(bannPosition[siebterSinn]);
+                inventory.remove(bannPosition[siebterSinn]);
+                bannStatus[siebterSinn] = 1;
               }
               else {
-                buttonText = 'Du hast ${monster[lastPressedButtonIndex-1]} nicht gebannt, vielleiht fehlt dir die passende Waffe!';
+                buttonText = 'Du hast ${monster[siebterSinn]} nicht gebannt, vielleiht fehlt dir die passende Waffe!';
               }
             }
             break;
