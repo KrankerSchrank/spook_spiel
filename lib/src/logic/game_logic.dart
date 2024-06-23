@@ -80,7 +80,7 @@ class Game {
           if (bannPosition[lastPressedButtonIndex-1] == '') {
             int random = Random().nextInt(bannItems.length);
             bannPosition[lastPressedButtonIndex-1] = bannItems[random];
-            item = bannPosition[lastPressedButtonIndex+1];
+            item = bannPosition[lastPressedButtonIndex-1];
             bannItems.removeAt(random);
           }
           else {
