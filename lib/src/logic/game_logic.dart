@@ -44,6 +44,7 @@ class Game {
 
     if (pressedButtonIndex < 10) {
       lastPressedButtonIndex = pressedButtonIndex;
+      siebterSinn = 0;
       return 'Button ${besessene[pressedButtonIndex]} pressed!';
     }
     else if (pressedButtonIndex == 12) {
