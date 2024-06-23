@@ -15,7 +15,7 @@ class ButtonGrid extends StatelessWidget {
         crossAxisCount: 5,
         childAspectRatio: 1.7,
         children: List.generate(15, (index) {
-          var besessene = ['Wirt', 'Bäcker', 'Metzger', 'Bauer', 'Fischer', 'Schmied', 'Schneider', 'Krämer', 'Stadtwächter', 'Bürgermeister'];
+           var besessene = ['Wirtin', 'Hebamme', 'Kräuterkundige', 'Bäurin', 'Fischer', 'Schmied', 'Priester', 'Totengräber', 'Stadtwächter', 'Bürgermeisterin'];
           return OutlinedButton(
             onPressed: () {
               // Handle button press

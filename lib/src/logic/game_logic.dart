@@ -6,8 +6,8 @@ class Game {
   bool isGameOver = false;
   int lastPressedButtonIndex = 99;
   var list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-  var besessene = ['Wirt', 'Bäcker', 'Metzger', 'Bauer', 'Fischer', 'Schmied', 'Schneider', 'Krämer', 'Stadtwächter', 'Bürgermeister'];
-  var monster = ['Bogart', 'Würmlinge', 'Skelts', 'Wichte', 'Flusshexe', 'Feuergeist', 'Mänade', 'Erdgeist', 'Sirene', 'Laminahexe'];
+  var besessene = ['Wirtin', 'Hebamme', 'Kräuterkundige', 'Bäurin', 'Fischer', 'Schmied', 'Priester', 'Totengräber', 'Stadtwächter', 'Bürgermeisterin'];
+  var monster = ['Laminahexe', 'Erdgeist', 'Flusshexe', 'Skelt', 'Feuergeist', 'Nekromant', 'Bogart', 'Wicht', 'Mänade'];
   var bannItems = ['Salz', 'Eisen', 'Silberkette', 'Stab', 'Messer', 'Schere', 'Gold', 'Lampe', 'Amulett', 'Kreuz'];
   var bannPosition = ['', '', '', '', '', '', '', '', '', ''];
   var bannStatus = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -71,30 +71,41 @@ class Game {
           }
           break;
         case 11:
-          if (bannPosition[lastPressedButtonIndex] == '') {
+          if (lastPressedButtonIndex == 0) {
+            buttonText = 'Hier gibt es keine Monster!';
+            break;
+          }
+          if (bannPosition[lastPressedButtonIndex+1] == '') {
             int random = Random().nextInt(bannItems.length);
-            bannPosition[lastPressedButtonIndex] = bannItems[random];
-            item = bannPosition[lastPressedButtonIndex];
+            bannPosition[lastPressedButtonIndex+1] = bannItems[random];
+            item = bannPosition[lastPressedButtonIndex+1];
             bannItems.removeAt(random);
           }
           else {
-            item = bannPosition[lastPressedButtonIndex];
+            item = bannPosition[lastPressedButtonIndex+1];
           }
-          buttonText = 'Du spürst das du ${monster[lastPressedButtonIndex]} mit $item bannen kannst!';
+          buttonText = 'Du spürst das du ${monster[lastPressedButtonIndex+1]} mit $item bannen kannst!';
           break;
           case 12:
-            if (bannStatus[lastPressedButtonIndex] == 1) {
-              buttonText = 'Du hast ${monster[lastPressedButtonIndex]} bereits gebannt!';
+            if (lastPressedButtonIndex == 0) {
+              buttonText = 'Hier gibt es keine Monster!';
+              break;
+            }
+            if (bannStatus[lastPressedButtonIndex+1] == 1) {
+              buttonText = 'Du hast ${monster[lastPressedButtonIndex+1]} bereits gebannt!';
             }
             else {
-              if (bannPosition[lastPressedButtonIndex] == '') {
-                buttonText = 'Du weißt nicht mit was du ${monster[lastPressedButtonIndex]} bannen sollst!';
+              if (bannPosition[lastPressedButtonIndex+1] == '') {
+                buttonText = 'Du weißt nicht mit was du ${monster[lastPressedButtonIndex+1]} bannen sollst!';
               }
-              else if (inventory.contains(bannPosition[lastPressedButtonIndex])) {
-                buttonText = 'Du hast ${monster[lastPressedButtonIndex]} mit ${bannPosition[lastPressedButtonIndex]} gebannt, Der Verräter ist ...!';
-                used.add(bannPosition[lastPressedButtonIndex]);
-                inventory.remove(bannPosition[lastPressedButtonIndex]);
-                bannStatus[lastPressedButtonIndex] = 1;
+              else if (inventory.contains(bannPosition[lastPressedButtonIndex+1])) {
+                buttonText = 'Du hast ${monster[lastPressedButtonIndex+1]} mit ${bannPosition[lastPressedButtonIndex+1]} gebannt, Der Verräter ist ...!';
+                used.add(bannPosition[lastPressedButtonIndex+1]);
+                inventory.remove(bannPosition[lastPressedButtonIndex+1]);
+                bannStatus[lastPressedButtonIndex+1] = 1;
+              }
+              else {
+                buttonText = 'Du hast ${monster[lastPressedButtonIndex+1]} nicht gebannt, vielleiht fehlt dir die passende Waffe!';
               }
             }
             break;
