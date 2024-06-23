@@ -23,7 +23,7 @@ class Person {
   String hinweis() {
     String reavel = '';
     var genderReveal = random.nextInt(5);
-    if (revealed.length == besseseneAttribute.length) {
+    if (revealed.length == 4) {
       if (genderRevealed == false) {
         genderRevealed = true;
         return gender;
