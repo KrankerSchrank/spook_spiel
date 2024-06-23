@@ -9,15 +9,18 @@ class Game {
   var list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
   var besessene = ['Wirtin', 'Hebamme', 'Kräuterkundige', 'Bäurin', 'Fischer', 'Schmied', 'Priester', 'Totengräber', 'Stadtwächter', 'Bürgermeisterin'];
   var monster = ['Laminahexe', 'Erdgeist', 'Flusshexe', 'Skelt', 'Feuergeist', 'Nekromant', 'Bogart', 'Wicht', 'Mänade'];
-  var bannItems = ['Salz', 'Eisen', 'Silberkette', 'Stab', 'Messer', 'Schere', 'Gold', 'Lampe', 'Amulett', 'Kreuz'];
+  var bannItems = ['Salz', 'Eisen', 'Silberkette', 'Stab', 'Messer', 'Schere', 'Gold', 'Lampe', 'Amulett'];
   var bannPosition = ['', '', '', '', '', '', '', '', '', ''];
   var bannStatus = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  var items = ['Universalschlüssel', 'Salz', 'Eisen', 'Silberkette', 'Stab', 'Messer', 'Schere', 'Gold', 'Lampe', 'Amulett', 'Kreuz'];
+  var items = ['Universalschlüssel', 'Salz', 'Eisen', 'Silberkette', 'Stab', 'Messer', 'Schere', 'Gold', 'Lampe', 'Amulett'];
   var inventory = [];
   var schluessel = 0;
+  var gesSchluessel = 0;
   var position = ['', '', '', '', '', '', '', '', '', ''];
   var used = [];
   var item = '';
+  var zeit = 0;
+  var siebterSinn = 0;
   Person besessen = Person();
 
   // Function to initialize the game
@@ -34,6 +37,10 @@ class Game {
     if (isGameOver) {
       throw Exception('Game over!');
     }
+    if (zeit == 24) {
+      isGameOver = true;
+      return 'Die Zeit ist abgelaufen, ihr habt verloren!';
+    }
 
     if (pressedButtonIndex < 10) {
       lastPressedButtonIndex = pressedButtonIndex;
@@ -43,6 +50,7 @@ class Game {
       String buttonText = '';
       switch (pressedButtonIndex) {
         case 10:
+        zeit += 1;
           if (position[lastPressedButtonIndex] == '') {
             int random = Random().nextInt(items.length);
             if (items[random] == 'Universalschlüssel') {
@@ -64,15 +72,21 @@ class Game {
           else {
             item = position[lastPressedButtonIndex];
           }
-          if (inventory.contains(item) || used.contains(item)) {
+          if (item != 'Universalschlüssel') {
+            if (inventory.contains(item) || used.contains(item)) {
             buttonText = 'Hier gibt es nichts zu finden!';
+            }
+            else {
+              buttonText = 'Du hast $item gefunden!';
+              inventory.add(item);
+            }
           }
           else {
-            buttonText = 'Du hast $item gefunden!';
-            inventory.add(item);
+            buttonText = 'Du hast einen Universalschlüssel gefunden!';
           }
           break;
         case 11:
+        zeit += 1;
           if (lastPressedButtonIndex == 0) {
             buttonText = 'Hier gibt es keine Monster!';
             break;
@@ -86,6 +100,7 @@ class Game {
           else {
             item = bannPosition[lastPressedButtonIndex-1];
           }
+          siebterSinn = lastPressedButtonIndex - 1;
           buttonText = 'Du spürst das du ${monster[lastPressedButtonIndex-1]} mit $item bannen kannst!';
           break;
           case 12:
@@ -93,7 +108,11 @@ class Game {
               buttonText = 'Hier gibt es keine Monster!';
               break;
             }
-            if (bannStatus[lastPressedButtonIndex-1] == 1) {
+            if (siebterSinn == 0) {
+              buttonText = 'Du bist dir nicht Sicher mit was du ${monster[lastPressedButtonIndex+1]} bannen sollst!';
+              break;
+            }
+            if (bannStatus[siebterSinn] == 1) {
               buttonText = 'Du hast ${monster[lastPressedButtonIndex+1]} bereits gebannt!';
             }
             else {
@@ -120,10 +139,12 @@ class Game {
             }
             break;
           case 13:
+          zeit += 1;
           // TODO: Implement Zaubern button
             buttonText = 'Animal ${besessene[lastPressedButtonIndex]} eats some food!';
             break;
           case 14:
+          zeit += 1;
           // TODO: Implement Aufbrechen button
             if (schluessel == 0) {
               buttonText = 'Du hast keinen Universalschöüssel!';
