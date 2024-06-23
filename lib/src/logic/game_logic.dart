@@ -50,7 +50,8 @@ class Game {
       String buttonText = '';
       switch (pressedButtonIndex) {
         case 10:
-        zeit += 1;
+          zeit += 1;
+          item = '';
           if (position[lastPressedButtonIndex] == '') {
             int random = Random().nextInt(items.length);
             if (items[random] == 'Universalschlüssel') {
@@ -82,15 +83,18 @@ class Game {
           }
           if (item != 'Universalschlüssel') {
             if (inventory.contains(item) || used.contains(item)) {
-            buttonText = 'Hier gibt es nichts zu finden!';
+              buttonText = 'Hier gibt es nichts zu finden!';
             }
             else {
               buttonText = 'Du hast $item gefunden!';
               inventory.add(item);
             }
           }
-          else {
+          else if (item != ''){
             buttonText = 'Du hast einen Universalschlüssel gefunden!';
+          }
+          else {
+            buttonText = 'Hier gibt es nichts zu finden!';
           }
           break;
         case 11:
