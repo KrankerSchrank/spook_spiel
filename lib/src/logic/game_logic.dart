@@ -55,6 +55,10 @@ class Game {
             int random = Random().nextInt(items.length);
             if (items[random] == 'Universalschlüssel') {
               schluessel += 1;
+              gesSchluessel += 1;
+              if (gesSchluessel == 4) {
+                items.removeAt(random);
+              }
               item = 'Universalschlüssel';
             }
             else {
@@ -65,9 +69,13 @@ class Game {
               }
             }
           }
-          else if (Random().nextInt(5) == 1) {
+          else if (Random().nextInt(5) == 1 && items.contains('Universalschlüssel')) {
             item = 'Universalschlüssel';
             schluessel += 1;
+            gesSchluessel += 1;
+            if (gesSchluessel == 4) {
+              items.remove('Universalschlüssel');
+            }
           }
           else {
             item = position[lastPressedButtonIndex];
