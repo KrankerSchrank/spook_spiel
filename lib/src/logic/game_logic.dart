@@ -21,10 +21,12 @@ class Game {
   var item = '';
   var zeit = 0;
   var siebterSinn = 0;
+  var playerTime = [0, 16, 18, 16];
+  int players;
   Person besessen = Person();
 
   // Function to initialize the game
-  Game() {
+  Game(this.players) {
     isInitialized = true;
   }
 
@@ -37,7 +39,7 @@ class Game {
     if (isGameOver) {
       throw Exception('Game over!');
     }
-    if (zeit == 24) {
+    if (zeit == playerTime[players]) {
       isGameOver = true;
       return 'Die Zeit ist abgelaufen, ihr habt verloren!';
     }
