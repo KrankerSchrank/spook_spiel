@@ -21,7 +21,7 @@ class Game {
   var item = '';
   var zeit = 0;
   var siebterSinn = 0;
-  var playerTime = [0, 16, 18, 16];
+  var playerTime = [0, 20, 18, 16];
   int players;
   Person besessen = Person();
 
