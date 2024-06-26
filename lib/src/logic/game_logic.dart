@@ -1,4 +1,6 @@
 import 'dart:math' show Random;
+import 'package:flutter/material.dart';
+
 import 'attributes.dart';
 import 'package:audioplayers/audioplayers.dart';
 
@@ -25,9 +27,10 @@ class Game {
   var playerTime = [0, 20, 18, 16];
   var silbertor = 0;
   var strickleiter = 0;
+  var zeitZurueck = 0;
   int players;
   Person besessen = Person();
-  final audioPlayer = AudioCache();
+  final player = AudioPlayer();
 
   // Function to initialize the game
   Game(this.players) {
@@ -55,6 +58,10 @@ class Game {
     }
     else if (pressedButtonIndex == 12) {
         String buttonText = '';
+        if (silbertor == 0 && lastPressedButtonIndex == 9) {
+          buttonText = 'Verarschen kann ich mich selber.';
+          return buttonText;
+        }
         if (lastPressedButtonIndex == 0) {
               buttonText = 'Hier gibt es keine Monster!';
               lastPressedButtonIndex = pressedButtonIndex;
@@ -96,6 +103,12 @@ class Game {
           siebterSinn = 0;
           zeit += 1;
           item = '';
+
+          if (silbertor == 0 && lastPressedButtonIndex == 9) {
+            buttonText = 'Verarschen kann ich mich selber.';
+            break;
+          }
+          
           if (position[lastPressedButtonIndex] == '') {
             int random = Random().nextInt(items.length);
             if (items[random] == 'Universalschlüssel') {
@@ -142,7 +155,11 @@ class Game {
           }
           break;
         case 11:
-        zeit += 1;
+          zeit += 1;
+          if (silbertor == 0 && lastPressedButtonIndex == 9) {
+            buttonText = 'Verarschen kann ich mich selber.';
+            break;
+          }
           if (lastPressedButtonIndex == 0) {
             buttonText = 'Hier gibt es keine Monster!';
             break;
@@ -190,25 +207,63 @@ class Game {
               case 3:
                 int random = Random().nextInt(2);
                 if (random == 0) {
-                  buttonText = 'Du stößt beim Zaubern mit deinem Zauberstab gegen die Wand! Es fällt eine Strickleiter zum Altar von der Decke.';
-                  audioPlayer.play('strickleiter.mp3');
-                }
-                else if (random == 1) {
-                  buttonText = 'Die Bäurin ist gestorben!';
-                  isGameOver = true;
+                  if (strickleiter == 0) {
+                    buttonText = 'Es fällt eine Strickleiter zum Altar von der Decke.';
+                    strickleiter = 1;
+                  }
+                  else {
+                    buttonText = 'Die Strickleiter fällt hoch!';
+                    strickleiter = 0;
+                  }
                 }
                 else {
-                  buttonText = 'Die Bäurin ist gestorben!';
-                  isGameOver = true;
+                  buttonText = 'Nix passiert kannst du etwa nicht Zaubern?!';
                 }
                 break;
+              case 9:
+                if (silbertor == 0) {
+                  buttonText = 'Verarschen kann ich mich selber.';
+                  break;
+                }
+                int random = Random().nextInt(3);
+                if (zeitZurueck == 0) {
+                  if (random == 0) {
+                    buttonText = 'Du hast die Zeit zurückgedreht!';
+                    zeit = zeit - players*2;
+                  }
+                  else if (random == 1) {
+                    buttonText = 'Du hast die Zeit vorgedreht!';
+                    zeit = zeit + players;
+                  }
+                  else {
+                    buttonText = 'Du hast die Zeit ziemlich weit vorgedreht!';
+                    zeit = zeit + players*2;
+                  }
+                }
+                if (zeitZurueck == 0) {
+                  if (random < 2) {
+                    buttonText = 'Du hast die Zeit zurückgedreht!';
+                    zeit = zeit - players*2;
+                    zeitZurueck = 1;
+                  }
+                  else {
+                    buttonText = 'Du hast die Zeit vorgedreht!';
+                    zeit = zeit + players;
+                  }
+                }
+                break;
+                default:
+                  buttonText = 'Hier gibt es nichts zu Zaubern!';
             }
-            buttonText = 'Animal ${besessene[lastPressedButtonIndex]} eats some food!';
             break;
           case 14:
             zeit += 1;
+            if (silbertor == 0 && lastPressedButtonIndex == 9) {
+            buttonText = 'Verarschen kann ich mich selber.';
+            break;
+          }
             if (schluessel == 0) {
-              buttonText = 'Du hast keinen Universalschöüssel!';
+              buttonText = 'Du hast keinen Universalschlüssel!';
             }
             else {
               schluessel -= 1;
