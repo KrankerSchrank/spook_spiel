@@ -1,5 +1,6 @@
 import 'dart:math' show Random;
 import 'attributes.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class Game {
   // Variables to store game state
@@ -22,8 +23,11 @@ class Game {
   var zeit = 0;
   var siebterSinn = 0;
   var playerTime = [0, 20, 18, 16];
+  var silbertor = 0;
+  var strickleiter = 0;
   int players;
   Person besessen = Person();
+  final audioPlayer = AudioCache();
 
   // Function to initialize the game
   Game(this.players) {
@@ -156,13 +160,53 @@ class Game {
           buttonText = 'Du spürst das du ${monster[lastPressedButtonIndex-1]} mit $item bannen kannst!';
           break;
           case 13:
-          zeit += 1;
-          // TODO: Implement Zaubern button
+            zeit += 1;
+            switch (lastPressedButtonIndex) {
+              case 0:
+                buttonText = 'Du konntest deine Freunde erfolgreich aus der Zelle befreien!';
+                break;
+              case 2:
+                int random = Random().nextInt(silbertor == 0 ? 2 : 3);
+                if (random == 0 && silbertor == 0) {
+                  buttonText = 'Du hast das Silbertor geöffnet!';
+                  silbertor = 1;
+                }
+                else if (random == 1 && silbertor == 1 || random == 2 && silbertor == 1) {
+                  buttonText = 'Das Silbertor hat sich Geschlossen!';
+                  silbertor = 0;
+                }
+                else {
+                  if (gesSchluessel < 4 && random != 0) {
+                    buttonText = 'Du erhälst einen Universalschlüssel!';
+                    schluessel += 1;
+                    gesSchluessel += 1;
+                  }
+                  else {
+                    buttonText = 'Muhahaha ich bin der Bane und ich stehle dir Zeit!';
+                    zeit += players;
+                  }
+                }
+                break;
+              case 3:
+                int random = Random().nextInt(2);
+                if (random == 0) {
+                  buttonText = 'Du stößt beim Zaubern mit deinem Zauberstab gegen die Wand! Es fällt eine Strickleiter zum Altar von der Decke.';
+                  audioPlayer.play('strickleiter.mp3');
+                }
+                else if (random == 1) {
+                  buttonText = 'Die Bäurin ist gestorben!';
+                  isGameOver = true;
+                }
+                else {
+                  buttonText = 'Die Bäurin ist gestorben!';
+                  isGameOver = true;
+                }
+                break;
+            }
             buttonText = 'Animal ${besessene[lastPressedButtonIndex]} eats some food!';
             break;
           case 14:
-          zeit += 1;
-          // TODO: Implement Aufbrechen button
+            zeit += 1;
             if (schluessel == 0) {
               buttonText = 'Du hast keinen Universalschöüssel!';
             }
