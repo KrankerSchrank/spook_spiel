@@ -14,7 +14,9 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  audioplayers: ^6.0.0
 
+  flutter_gen: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -30,3 +32,4 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
+    - assets/sounds/

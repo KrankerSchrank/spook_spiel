@@ -1,5 +1,7 @@
 import 'dart:math' show Random;
+
 import 'attributes.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class Game {
   // Variables to store game state
@@ -21,12 +23,16 @@ class Game {
   var item = '';
   var zeit = 0;
   var siebterSinn = 0;
+  var silbertor = 0;
+  var strickleiter = 0;
+  var zeitZurueck = 0;
   var playerTime = [];
   var diffFactor = [1.5, 1, 0.7];
   int players;
   int difficoulty;
   var difficoultyTime = [[0, 26, 24, 20], [0, 20, 18, 16], [0, 18, 16, 14]];
   Person besessen = Person();
+  final player = AudioPlayer();
 
   // Function to initialize the game
   Game(this.players, this.difficoulty) {
@@ -55,6 +61,10 @@ class Game {
     }
     else if (pressedButtonIndex == 12) {
         String buttonText = '';
+        if (silbertor == 0 && lastPressedButtonIndex == 9) {
+          buttonText = 'Verarschen kann ich mich selber.';
+          return buttonText;
+        }
         if (lastPressedButtonIndex == 0) {
               buttonText = 'Hier gibt es keine Monster!';
               lastPressedButtonIndex = pressedButtonIndex;
@@ -122,6 +132,12 @@ class Game {
           }
           siebterSinn = 0;
           item = '';
+
+          if (silbertor == 0 && lastPressedButtonIndex == 9) {
+            buttonText = 'Verarschen kann ich mich selber.';
+            break;
+          }
+          
           if (position[lastPressedButtonIndex] == '') {
             int random = Random().nextInt(items.length);
             if (items[random] == 'Universalschlüssel') {
@@ -178,7 +194,11 @@ class Game {
           }
           break;
         case 11:
-        zeit += 1;
+          zeit += 1;
+          if (silbertor == 0 && lastPressedButtonIndex == 9) {
+            buttonText = 'Verarschen kann ich mich selber.';
+            break;
+          }
           if (lastPressedButtonIndex == 0) {
             buttonText = 'Hier gibt es keine Monster!';
             break;
@@ -196,15 +216,98 @@ class Game {
           buttonText = 'Du spürst das du ${monster[lastPressedButtonIndex-1]} mit $item bannen kannst!';
           break;
           case 13:
-          zeit += 1;
-          // TODO: Implement Zaubern button
-            buttonText = 'Animal ${besessene[lastPressedButtonIndex]} eats some food!';
+            zeit += 1;
+            switch (lastPressedButtonIndex) {
+              case 0:
+                buttonText = 'Du konntest deine Freunde erfolgreich aus der Zelle befreien!';
+                break;
+              case 2:
+                int random = Random().nextInt(silbertor == 0 ? 2 : 3);
+                if (random == 0 && silbertor == 0) {
+                  buttonText = 'Du hast das Silbertor geöffnet!';
+                  silbertor = 1;
+                }
+                else if (random == 1 && silbertor == 1 || random == 2 && silbertor == 1) {
+                  buttonText = 'Das Silbertor hat sich Geschlossen!';
+                  silbertor = 0;
+                }
+                else {
+                  if (gesSchluessel < 4 && random != 0) {
+                    buttonText = 'Du erhälst einen Universalschlüssel!';
+                    schluessel += 1;
+                    gesSchluessel += 1;
+                  }
+                  else {
+                    buttonText = 'Muhahaha ich bin der Bane und ich stehle dir Zeit!';
+                    zeit += players;
+                  }
+                }
+                break;
+              case 3:
+                int random = Random().nextInt(2);
+                if (random == 0) {
+                  if (strickleiter == 0) {
+                    buttonText = 'Es fällt eine Strickleiter zum Altar von der Decke.';
+                    strickleiter = 1;
+                  }
+                  else {
+                    buttonText = 'Die Strickleiter fällt hoch!';
+                    strickleiter = 0;
+                  }
+                }
+                else {
+                  int items = Random().nextInt(4);
+                  if (items == 0) {
+                    buttonText = 'Du und nur du erhällst einen Rucksack du kannst ein Item mehr tragen!';
+                    break;
+                  }
+                  buttonText = 'Nix passiert kannst du etwa nicht Zaubern?!';
+                }
+                break;
+              case 9:
+                if (silbertor == 0) {
+                  buttonText = 'Verarschen kann ich mich selber.';
+                  break;
+                }
+                int random = Random().nextInt(3);
+                if (zeitZurueck == 0) {
+                  if (random == 0) {
+                    buttonText = 'Du hast die Zeit zurückgedreht!';
+                    zeit = zeit - players*2;
+                  }
+                  else if (random == 1) {
+                    buttonText = 'Du hast die Zeit vorgedreht!';
+                    zeit = zeit + players;
+                  }
+                  else {
+                    buttonText = 'Du hast die Zeit ziemlich weit vorgedreht!';
+                    zeit = zeit + players*2;
+                  }
+                }
+                if (zeitZurueck == 0) {
+                  if (random < 2) {
+                    buttonText = 'Du hast die Zeit zurückgedreht!';
+                    zeit = zeit - players*2;
+                    zeitZurueck = 1;
+                  }
+                  else {
+                    buttonText = 'Du hast die Zeit vorgedreht!';
+                    zeit = zeit + players;
+                  }
+                }
+                break;
+                default:
+                  buttonText = 'Hier gibt es nichts zu Zaubern!';
+            }
             break;
           case 14:
-          zeit += 1;
-          // TODO: Implement Aufbrechen button
+            zeit += 1;
+            if (silbertor == 0 && lastPressedButtonIndex == 9) {
+            buttonText = 'Verarschen kann ich mich selber.';
+            break;
+          }
             if (schluessel == 0) {
-              buttonText = 'Du hast keinen Universalschöüssel!';
+              buttonText = 'Du hast keinen Universalschlüssel!';
             }
             else {
               schluessel -= 1;
