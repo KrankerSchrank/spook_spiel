@@ -1,5 +1,4 @@
 import 'dart:math' show Random;
-import 'package:flutter/material.dart';
 
 import 'attributes.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -217,6 +216,11 @@ class Game {
                   }
                 }
                 else {
+                  int items = Random().nextInt(4);
+                  if (items == 0) {
+                    buttonText = 'Du und nur du erhällst einen Rucksack du kannst ein Item mehr tragen!';
+                    break;
+                  }
                   buttonText = 'Nix passiert kannst du etwa nicht Zaubern?!';
                 }
                 break;
