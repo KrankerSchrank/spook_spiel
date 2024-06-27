@@ -3,6 +3,7 @@ import '../logic/game_logic.dart';
 
 class ButtonGrid extends StatefulWidget {
   const ButtonGrid({super.key, required this.players, required this.difficulty});
+  static const routeName = '/game';
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -21,9 +22,10 @@ class ButtonGrid extends StatefulWidget {
 }
 
 class _ButtonGrid extends State<ButtonGrid> {
-  static const routeName = '/game';
+  @override
   Widget build(BuildContext context) {
     Game game = Game(widget.players, widget.difficulty);
+    print(widget.players);
     return Scaffold(
       appBar: AppBar(
         title: const Text('The Spook - Das Spiel'),
@@ -56,12 +58,6 @@ class _ButtonGrid extends State<ButtonGrid> {
       ),
     );
   }
-  
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    throw UnimplementedError();
-  }
 }
 
 showLoaderDialog(BuildContext context, buttonInfo, game) {
@@ -93,4 +89,32 @@ showLoaderDialog(BuildContext context, buttonInfo, game) {
         },
       );
     }
-  }
+}
+
+showCustomLoaderDialog(BuildContext context, String buttonText) {
+  AlertDialog alert = AlertDialog(
+    content: Row(
+      children: [
+        Container(
+            margin: const EdgeInsets.only(left: 7), child: Text(buttonText)),
+            Container(
+              margin: const EdgeInsets.only(left: 70, right: 7),
+              child: ElevatedButton(
+                onPressed: () {
+                  // Handle OK button press
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ),
+      ],
+    ),
+  );
+  showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}

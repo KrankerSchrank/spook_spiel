@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 
@@ -43,7 +42,6 @@ class MyApp extends StatelessWidget {
           // allows descendant Widgets to display the correct translations
           // depending on the user's locale.
           localizationsDelegates: const [
-            AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
@@ -55,10 +53,6 @@ class MyApp extends StatelessWidget {
           // Use AppLocalizations to configure the correct application title
           // depending on the user's locale.
           //
-          // The appTitle is defined in .arb files found in the localization
-          // directory.
-          onGenerateTitle: (BuildContext context) =>
-              AppLocalizations.of(context)!.appTitle,
 
           // Define a light and dark color theme. Then, read the user's
           // preferred ThemeMode (light, dark, or system default) from the
@@ -81,15 +75,19 @@ class MyApp extends StatelessWidget {
                     case SampleItemListView.routeName:
                       return const SampleItemListView();
                     case ButtonGrid.routeName:
-                      return const ButtonGrid();
+                      final args = routeSettings.arguments as Map<String, dynamic>?;
+                      return ButtonGrid(
+                        players: args?['players'] ?? 2,
+                        difficulty: args?['difficulty'] ?? 1,
+                      );
                     case HomeScreen.routeName:
                       return const HomeScreen();
                     default:
-                    return const HomeScreen();
+                      return const HomeScreen();
                   }
                 },
-              );  
-            },
+              );
+            }
         );
       },
     );
