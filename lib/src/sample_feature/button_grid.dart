@@ -1,15 +1,41 @@
 import 'package:flutter/material.dart';
 import '../logic/game_logic.dart';
 
-class ButtonGrid extends StatelessWidget {
-  const ButtonGrid({super.key});
-  static const routeName = '/game';
+class ButtonGrid extends StatefulWidget {
+  const ButtonGrid({super.key, required this.players, required this.difficulty});
+
+  // This widget is the home page of your application. It is stateful, meaning
+  // that it has a State object (defined below) that contains fields that affect
+  // how it looks.
+
+  // This class is the configuration for the state. It holds the values (in this
+  // case the title) provided by the parent (in this case the App widget) and
+  // used by the build method of the State. Fields in a Widget subclass are
+  // always marked "final".
+
+  final int players;
+  final int difficulty;
+
   @override
+  State<ButtonGrid> createState() => _ButtonGrid();
+}
+
+class _ButtonGrid extends State<ButtonGrid> {
+  static const routeName = '/game';
   Widget build(BuildContext context) {
-    Game game = Game(2, 1);
+    Game game = Game(widget.players, widget.difficulty);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Button Grid'),
+        title: const Text('The Spook - Das Spiel'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.lock_outline),
+            onPressed: () {
+              // Handle refresh press
+              game.processButtonPress(15);
+            },
+          ),
+        ],
       ),
       body: GridView.count(
         crossAxisCount: 5,
@@ -29,6 +55,12 @@ class ButtonGrid extends StatelessWidget {
         }),
       ),
     );
+  }
+  
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    throw UnimplementedError();
   }
 }
 

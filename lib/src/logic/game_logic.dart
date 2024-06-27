@@ -321,6 +321,10 @@ class Game {
               }
             }
             break;
+          case 15:
+            buttonText = 'Du bist gefangen!';
+            zeit += 1;
+            break;
         default:
           return 'Error processing button press!';
       }
