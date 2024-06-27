@@ -21,12 +21,16 @@ class Game {
   var item = '';
   var zeit = 0;
   var siebterSinn = 0;
-  var playerTime = [0, 20, 18, 16];
+  var playerTime = [];
+  var diffFactor = [1.5, 1, 0.7];
   int players;
+  int difficoulty;
+  var difficoultyTime = [[0, 26, 24, 20], [0, 20, 18, 16], [0, 18, 16, 14]];
   Person besessen = Person();
 
   // Function to initialize the game
-  Game(this.players) {
+  Game(this.players, this.difficoulty) {
+    playerTime = difficoultyTime[difficoulty];
     isInitialized = true;
   }
 
@@ -89,8 +93,34 @@ class Game {
       String buttonText = '';
       switch (pressedButtonIndex) {
         case 10:
-          siebterSinn = 0;
           zeit += 1;
+          int bane = Random().nextInt(playerTime[players].toInt() * diffFactor[difficoulty]);
+          if (bane == 0) {
+            if (difficoulty == 2) {
+              int rotation = Random().nextInt(5);
+              if (rotation == 0) {
+                buttonText = 'Uhh ich bin der Bane ich gehe einmal im Kreis, dein Zug ist beendet!';
+                break;
+              }
+            }
+            int felder = 0;
+            while (felder == 0) {
+              felder = Random().nextInt(3) - 1;
+            }
+            if (felder == -1) {
+              buttonText = 'Uhhh ich bin der Bane, ich gehe ein Feld rückwärts, dein Zug ist beendet!';
+              break;
+            }
+            else {
+              buttonText = 'Uhhh ich bin der Bane, ich gehe $felder weiter, dein Zug ist beendet!';
+              break;
+            }
+          }
+          if (lastPressedButtonIndex == 7 && Random().nextInt(3) == 0) {
+            buttonText = 'Oh nein du bist in den Fluss gefallen und wirst zum Fischer geschwemmt dein Zug ist beendet!';
+            break;
+          }
+          siebterSinn = 0;
           item = '';
           if (position[lastPressedButtonIndex] == '') {
             int random = Random().nextInt(items.length);
@@ -135,6 +165,16 @@ class Game {
           }
           else {
             buttonText = 'Hier gibt es nichts zu finden!';
+          }
+          if (lastPressedButtonIndex == 4 && Random().nextInt(3) == 0) {
+            var bootsfahrt = ['Bäurin', 'Hebamme', 'Totengräber'];
+            buttonText = '$buttonText \nDer Fischer gibt dir eine Bootsfahrt bis zur ${bootsfahrt[Random().nextInt(bootsfahrt.length)]}!';
+            zeit +=1;
+            break;
+          }
+          else if (playerTime[players]/2 < zeit && Random().nextInt(5) == 0) {
+            buttonText = '$buttonText \nIch möchte dir Helfen mache einen weiteren Zug.';
+            zeit -= 1;
           }
           break;
         case 11:
