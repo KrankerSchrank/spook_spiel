@@ -156,7 +156,7 @@ class Game {
               buttonText = 'Hier gibt es nichts zu finden!';
             }
             else {
-              buttonText = 'Du hast \n $item gefunden!';
+              buttonText = 'Du hast $item gefunden!';
               inventory.add(item);
             }
           }
@@ -168,12 +168,12 @@ class Game {
           }
           if (lastPressedButtonIndex == 4 && Random().nextInt(3) == 0) {
             var bootsfahrt = ['Bäurin', 'Hebamme', 'Totengräber'];
-            buttonText = '$buttonText \n Der Fischer gibt dir eine Bootsfahrt bis zur ${bootsfahrt[Random().nextInt(bootsfahrt.length)]}!';
+            buttonText = '$buttonText \nDer Fischer gibt dir eine Bootsfahrt bis zur ${bootsfahrt[Random().nextInt(bootsfahrt.length)]}!';
             zeit +=1;
             break;
           }
           else if (playerTime[players]/2 < zeit && Random().nextInt(5) == 0) {
-            buttonText = '$buttonText Ich möchte dir Helfen mache einen weiteren Zug.';
+            buttonText = '$buttonText \nIch möchte dir Helfen mache einen weiteren Zug.';
             zeit -= 1;
           }
           break;
