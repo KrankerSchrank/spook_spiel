@@ -6,7 +6,7 @@ class ButtonGrid extends StatelessWidget {
   static const routeName = '/game';
   @override
   Widget build(BuildContext context) {
-    Game game = Game(2);
+    Game game = Game(2, 1);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Button Grid'),
