@@ -25,7 +25,6 @@ class _ButtonGrid extends State<ButtonGrid> {
   @override
   Widget build(BuildContext context) {
     Game game = Game(widget.players, widget.difficulty);
-    print(widget.players);
     return Scaffold(
       appBar: AppBar(
         title: const Text('The Spook - Das Spiel'),
