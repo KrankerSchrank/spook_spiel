@@ -47,7 +47,8 @@ class Game {
     }
 
     if (isGameOver) {
-      throw Exception('Game over!');
+      throw Exception('Game over!');                                //GameOver
+      
     }
     if (zeit == playerTime[players]) {
       isGameOver = true;
