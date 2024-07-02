@@ -147,7 +147,7 @@ class Game {
             }
           }
           if (lastPressedButtonIndex == 7 && Random().nextInt(3) == 0) {
-            buttonText = 'Oh nein du bist in den Fluss gefallen und wirst zum Fischer geschwemmt dein Zug ist beendet!';
+            buttonText = 'Oh nein du bist in den Fluss gefallen\nund wirst zum Fischer geschwemmt dein Zug ist beendet!';
             break;
           }
           siebterSinn = 0;
