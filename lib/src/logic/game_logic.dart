@@ -118,6 +118,7 @@ class Game {
       }
     else if (pressedButtonIndex == 15) {                                          //Aufbrechen Funktionen
       var buttonText = 'Du bist gefangen!';
+      // TODO: Implement game logic for securing that all players are actually in prison
       zeit += 1;
       gefangene += 1;
       if(gefangene == players) {
