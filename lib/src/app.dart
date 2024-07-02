@@ -6,8 +6,10 @@ import 'sample_feature/sample_item_details_view.dart';
 import 'sample_feature/sample_item_list_view.dart';
 import 'sample_feature/button_grid.dart';
 import 'sample_feature/home.dart';
+import 'sample_feature/win_lose_screen.dart';
 import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
+
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -82,6 +84,10 @@ class MyApp extends StatelessWidget {
                       );
                     case HomeScreen.routeName:
                       return const HomeScreen();
+                    case WinLose.routeName:
+                      final args = routeSettings.arguments as List?;
+                      return WinLose(
+                        state: args?[0] ?? -1);
                     default:
                       return const HomeScreen();
                   }

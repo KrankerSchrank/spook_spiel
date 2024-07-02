@@ -61,6 +61,27 @@ class _ButtonGrid extends State<ButtonGrid> {
 
 showLoaderDialog(BuildContext context, buttonInfo, game) {
   String buttonText = game.processButtonPress(buttonInfo);
+    if (buttonText.contains('-2')){
+      Navigator.pushReplacementNamed(
+        context,
+        '/game_end',
+        arguments: [-2],
+      );
+    }
+    else if (buttonText.contains('-1')){
+      Navigator.pushReplacementNamed(
+        context,
+        '/game_end',
+        arguments: [-1],
+      );
+    }
+    else if (buttonText.contains('gewonnen')){
+      Navigator.pushReplacementNamed(
+        context,
+        '/game_end',
+        arguments: [1],
+      );
+    }
     if (buttonInfo >= 10) {
       AlertDialog alert = AlertDialog(
         content: Row(
