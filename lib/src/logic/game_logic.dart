@@ -27,10 +27,11 @@ class Game {
   var strickleiter = 0;
   var zeitZurueck = 0;
   var playerTime = [];
-  var diffFactor = [1.5, 1, 0.7];
+  var diffFactor = [-3, 0, 3];
+  var gefangene = 0;
   int players;
   int difficoulty;
-  var difficoultyTime = [[0, 26, 24, 20], [0, 20, 18, 16], [0, 18, 16, 14]];
+  var difficoultyTime = [[0, 0, 26, 24, 20], [0, 0, 20, 18, 16], [0, 0, 18, 16, 14]];
   Person besessen = Person();
   final player = AudioPlayer();
 
@@ -49,29 +50,28 @@ class Game {
     if (isGameOver) {
       throw Exception('Game over!');
     }
-    if (zeit == playerTime[players]) {
+    if (zeit == playerTime[players]) {                                            //Zeit abgelaufen
       isGameOver = true;
       return 'Die Zeit ist abgelaufen, ihr habt verloren!';
     }
-
-    if (pressedButtonIndex < 10) {
+    if (pressedButtonIndex < 10) {                                                //??
       lastPressedButtonIndex = pressedButtonIndex;
       siebterSinn = 0;
       return 'Button ${besessene[pressedButtonIndex]} pressed!';
-    }
-    else if (pressedButtonIndex == 12) {
+    }                                                                             //Funktion siebter sinn
+    else if (pressedButtonIndex == 12) {                                          //wenn silbertor zu
         String buttonText = '';
         if (silbertor == 0 && lastPressedButtonIndex == 9) {
           buttonText = 'Verarschen kann ich mich selber.';
           return buttonText;
         }
-        if (lastPressedButtonIndex == 0) {
-              buttonText = 'Hier gibt es keine Monster!';
+        if (lastPressedButtonIndex == 0) {                                          //keine monster
+              buttonText = 'Hier gibt es keine Monster!';  
               lastPressedButtonIndex = pressedButtonIndex;
               return buttonText;
             }
             if (bannStatus[siebterSinn] == 1) {
-              buttonText = 'Du hast ${monster[siebterSinn]} bereits gebannt!';
+              buttonText = 'Du hast ${monster[siebterSinn]} bereits gebannt!';         //bereits gebannt
             }
             else {
               if (bannPosition[siebterSinn] == '') {
@@ -97,14 +97,26 @@ class Game {
               }
             }
             lastPressedButtonIndex = pressedButtonIndex;
+            if (zeit == playerTime[players]-5) {                                          //Zeit warnung
+              buttonText = '$buttonText\nZeit wird knapp, ihr habt nur noch 5 Züge Beilung!!';
+            } 
             return buttonText;
       }
+    else if (pressedButtonIndex == 15) {                                          //Aufbrechen Funktionen
+      var buttonText = 'Du bist gefangen!';
+      zeit += 1;
+      gefangene += 1;
+      if(gefangene == players) {
+        buttonText = 'Ihr wurdet alle Gefangen und habt verloren!';
+      }
+      return buttonText;
+    }
     else if (lastPressedButtonIndex < 10) {
       String buttonText = '';
       switch (pressedButtonIndex) {
         case 10:
           zeit += 1;
-          int bane = Random().nextInt(playerTime[players].toInt() * diffFactor[difficoulty]);
+          int bane = Random().nextInt(playerTime[players] + diffFactor[difficoulty]);
           if (bane == 0) {
             if (difficoulty == 2) {
               int rotation = Random().nextInt(5);
@@ -182,13 +194,13 @@ class Game {
           else {
             buttonText = 'Hier gibt es nichts zu finden!';
           }
-          if (lastPressedButtonIndex == 4 && Random().nextInt(3) == 0) {
+          if (lastPressedButtonIndex == 4 && Random().nextInt(4) == 0) {
             var bootsfahrt = ['Bäurin', 'Hebamme', 'Totengräber'];
-            buttonText = '$buttonText \nDer Fischer gibt dir eine Bootsfahrt bis zur ${bootsfahrt[Random().nextInt(bootsfahrt.length)]}!';
+            buttonText = '$buttonText \nDer Fischer gibt dir eine Bootsfahrt bis zur ${bootsfahrt[Random().nextInt(bootsfahrt.length)]},\nmache einen weiteren Zug.';
             zeit +=1;
             break;
           }
-          else if (playerTime[players]/2 < zeit && Random().nextInt(5) == 0) {
+          else if (playerTime[players]/2 < zeit && Random().nextInt(6) == 0) {
             buttonText = '$buttonText \nIch möchte dir Helfen mache einen weiteren Zug.';
             zeit -= 1;
           }
@@ -215,11 +227,12 @@ class Game {
           siebterSinn = lastPressedButtonIndex - 1;
           buttonText = 'Du spürst das du ${monster[lastPressedButtonIndex-1]} mit $item bannen kannst!';
           break;
-          case 13:
+          case 13:                                                                                                     //Zaubern Funktionen
             zeit += 1;
             switch (lastPressedButtonIndex) {
               case 0:
                 buttonText = 'Du konntest deine Freunde erfolgreich aus der Zelle befreien!';
+                gefangene = 0;
                 break;
               case 2:
                 int random = Random().nextInt(silbertor == 0 ? 2 : 3);
@@ -247,11 +260,11 @@ class Game {
                 int random = Random().nextInt(2);
                 if (random == 0) {
                   if (strickleiter == 0) {
-                    buttonText = 'Es fällt eine Strickleiter zum Altar von der Decke.';
+                    buttonText = 'Beim herumfuchteln mit deinem Zauberstab stößt du gegen die Wand,\nes fällt eine Strickleiter zum Altar von der Decke.';
                     strickleiter = 1;
                   }
                   else {
-                    buttonText = 'Die Strickleiter fällt hoch!';
+                    buttonText = 'Du hast außversehen rückwärts gefuchtelt,\nie Strickleiter fällt hoch!';
                     strickleiter = 0;
                   }
                 }
@@ -272,7 +285,7 @@ class Game {
                 int random = Random().nextInt(3);
                 if (zeitZurueck == 0) {
                   if (random == 0) {
-                    buttonText = 'Du hast die Zeit zurückgedreht!';
+                    buttonText = 'Du hast die Zeit zurückgedreht! \n vielleicht ist dein Zauberstab Kaputt??';
                     zeit = zeit - players*2;
                   }
                   else if (random == 1) {
@@ -321,14 +334,13 @@ class Game {
               }
             }
             break;
-          case 15:
-            buttonText = 'Du bist gefangen!';
-            zeit += 1;
-            break;
         default:
           return 'Error processing button press!';
       }
       lastPressedButtonIndex = pressedButtonIndex;
+      if (zeit == playerTime[players]-5) {                                          //Zeit warnung
+        buttonText = '$buttonText\nZeit wird knapp, ihr habt nur noch 5 Züge Beilung!!';
+      } 
       return buttonText;
     }
     else {
