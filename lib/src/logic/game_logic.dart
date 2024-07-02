@@ -63,7 +63,7 @@ class Game {
       return 'Warte bis der Sound zuende ist!';
     }
     if (pressedButtonIndex < 10) {
-      playLocalAsset("strickleiter_runter.mp3");
+      // playLocalAsset("strickleiter_runter.mp3");
       lastPressedButtonIndex = pressedButtonIndex;
       siebterSinn = 0;
       print(zeit);

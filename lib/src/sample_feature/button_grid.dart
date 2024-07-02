@@ -33,7 +33,7 @@ class _ButtonGrid extends State<ButtonGrid> {
             icon: const Icon(Icons.lock_outline),
             onPressed: () {
               // Handle refresh press
-              game.processButtonPress(15);
+              showLoaderDialog(context, 15, game);
             },
           ),
         ],
@@ -109,32 +109,4 @@ showLoaderDialog(BuildContext context, buttonInfo, game) {
         },
       );
     }
-}
-
-showCustomLoaderDialog(BuildContext context, String buttonText) {
-  AlertDialog alert = AlertDialog(
-    content: Row(
-      children: [
-        Container(
-            margin: const EdgeInsets.only(left: 7), child: Text(buttonText)),
-            Container(
-              margin: const EdgeInsets.only(left: 70, right: 7),
-              child: ElevatedButton(
-                onPressed: () {
-                  // Handle OK button press
-                  Navigator.of(context).pop();
-                },
-                child: const Text('OK'),
-              ),
-            ),
-      ],
-    ),
-  );
-  showDialog(
-    barrierDismissible: false,
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
 }
