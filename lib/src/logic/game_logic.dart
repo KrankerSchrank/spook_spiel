@@ -33,7 +33,10 @@ class Game {
   int difficoulty;
   var difficoultyTime = [[0, 0, 26, 24, 20], [0, 0, 20, 18, 16], [0, 0, 18, 16, 14]];
   Person besessen = Person();
-  final player = AudioPlayer();
+  static AudioPlayer cache = AudioPlayer();
+
+  // Audio Files:
+  static const strickleiterRunter = "assets/audio/strickleiter_runter.mp3";
 
   // Function to initialize the game
   Game(this.players, this.difficoulty) {
@@ -56,7 +59,11 @@ class Game {
       print(zeit);
       return '-1';
     }
-    if (pressedButtonIndex < 10) {                                                //??
+    if (isPlaying()) {
+      return 'Warte bis der Sound zuende ist!';
+    }
+    if (pressedButtonIndex < 10) {
+      playLocalAsset("strickleiter_runter.mp3");
       lastPressedButtonIndex = pressedButtonIndex;
       siebterSinn = 0;
       print(zeit);
@@ -355,5 +362,29 @@ class Game {
     else {
       return 'Wähle erst einen Raum!';
     }
+  }
+  Future<void> playLocalAsset(String audio) async {
+   //At the next line, DO NOT pass the entire reference such as assets/yes.mp3. This will not work.
+   //Just pass the file name only.
+    return await cache.play(AssetSource('audio/$audio'));
+  } 
+  Future<void> stop() async {
+   //At the next line, DO NOT pass the entire reference such as assets/yes.mp3. This will not work.
+   //Just pass the file name only.
+    return await cache.stop();
+  } 
+  bool isPlaying() {
+    //At the next line, DO NOT pass the entire reference such as assets/yes.mp3. This will not work.
+    //Just pass the file name only.
+    bool playing = false;
+    cache.onPlayerStateChanged.listen((event) {
+      if (event == PlayerState.playing) {
+        playing = true;
+      }
+      else {
+        playing = false;
+      }
+    });
+  return playing;
   }
 }
