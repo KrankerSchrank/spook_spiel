@@ -40,8 +40,21 @@ class _WinLose extends State<WinLose>{
         title: Text(title),
       ),
       body: Center(
-        child: Text(text),
-      ),
+        child: Column(
+          children: [
+            Text(text),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacementNamed(
+                  context,
+                  '/',
+                );
+              },
+              child: const Text('Zurück zum Start'),
+            ),
+          ],
+        ),
+        ),
     );
   }
 }
