@@ -53,7 +53,7 @@ class Game {
     }
     if (zeit == playerTime[players]) {                                            //Zeit abgelaufen
       isGameOver = true;
-      return 'Die Zeit ist abgelaufen, ihr habt verloren!';
+      return '-1';
     }
     if (pressedButtonIndex < 10) {                                                //??
       lastPressedButtonIndex = pressedButtonIndex;
@@ -108,7 +108,7 @@ class Game {
       zeit += 1;
       gefangene += 1;
       if(gefangene == players) {
-        buttonText = 'Ihr wurdet alle Gefangen und habt verloren!';
+        buttonText = '-2';
       }
       return buttonText;
     }
@@ -327,7 +327,7 @@ class Game {
               schluessel -= 1;
               bool istBesessen = besessen.istPerson(besessene[lastPressedButtonIndex]);
               if (istBesessen) {
-                buttonText = '${besessene[lastPressedButtonIndex]} war der Verräter, ihr gewinnt!';
+                buttonText = '1';
                 isGameOver = true;
               }
               else {
