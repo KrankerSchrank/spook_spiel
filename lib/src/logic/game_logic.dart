@@ -53,22 +53,26 @@ class Game {
     }
     if (zeit == playerTime[players]) {                                            //Zeit abgelaufen
       isGameOver = true;
+      print(zeit);
       return '-1';
     }
     if (pressedButtonIndex < 10) {                                                //??
       lastPressedButtonIndex = pressedButtonIndex;
       siebterSinn = 0;
+      print(zeit);
       return 'Button ${besessene[pressedButtonIndex]} pressed!';
     }                                                                             //Funktion siebter sinn
     else if (pressedButtonIndex == 12) {                                          //wenn silbertor zu
         String buttonText = '';
         if (silbertor == 0 && lastPressedButtonIndex == 9) {
           buttonText = 'Verarschen kann ich mich selber.';
+          print(zeit);
           return buttonText;
         }
         if (lastPressedButtonIndex == 0) {                                          //keine monster
               buttonText = 'Hier gibt es keine Monster!';  
               lastPressedButtonIndex = pressedButtonIndex;
+              print(zeit);
               return buttonText;
             }
             if (bannStatus[siebterSinn] == 1) {
@@ -86,6 +90,7 @@ class Game {
                   inventory.remove(bannPosition[siebterSinn]);
                   bannStatus[siebterSinn] = 1;
                   lastPressedButtonIndex = pressedButtonIndex;
+                  print(zeit);
                   return buttonText;
                 }
                 buttonText = 'Du hast ${monster[siebterSinn]} mit ${bannPosition[siebterSinn]} gebannt, Der Verräter ist $bannen!';
@@ -101,6 +106,7 @@ class Game {
             if (zeit == playerTime[players]-5) {                                          //Zeit warnung
               buttonText = '$buttonText\nZeit wird knapp, ihr habt nur noch 5 Züge Beilung!!';
             } 
+            print(zeit);
             return buttonText;
       }
     else if (pressedButtonIndex == 15) {                                          //Aufbrechen Funktionen
@@ -110,6 +116,7 @@ class Game {
       if(gefangene == players) {
         buttonText = '-2';
       }
+      print(zeit);
       return buttonText;
     }
     else if (lastPressedButtonIndex < 10) {
@@ -341,7 +348,8 @@ class Game {
       lastPressedButtonIndex = pressedButtonIndex;
       if (zeit == playerTime[players]-5) {                                          //Zeit warnung
         buttonText = '$buttonText\nZeit wird knapp, ihr habt nur noch 5 Züge Beilung!!';
-      } 
+      }
+      print(zeit);
       return buttonText;
     }
     else {
