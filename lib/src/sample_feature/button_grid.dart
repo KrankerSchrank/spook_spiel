@@ -67,6 +67,7 @@ showLoaderDialog(BuildContext context, buttonInfo, game) {
         '/game_end',
         arguments: [-2],
       );
+      return 0;
     }
     else if (buttonText.contains('-1')){
       Navigator.pushReplacementNamed(
@@ -74,13 +75,15 @@ showLoaderDialog(BuildContext context, buttonInfo, game) {
         '/game_end',
         arguments: [-1],
       );
+      return 0;
     }
-    else if (buttonText.contains('gewonnen')){
+    else if (buttonText.contains('1')){
       Navigator.pushReplacementNamed(
         context,
         '/game_end',
         arguments: [1],
       );
+      return 0;
     }
     else if (buttonInfo >= 10) {
       AlertDialog alert = AlertDialog(
