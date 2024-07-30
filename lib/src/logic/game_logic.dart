@@ -31,7 +31,7 @@ class Game {
   var gefangene = 0;
   int players;
   int difficoulty;
-  var difficoultyTime = [[0, 0, 26, 24, 20], [0, 0, 20, 18, 16], [0, 0, 18, 16, 14]];
+  var difficoultyTime = [[0, 0, 30, 27, 20], [0, 0, 26, 24, 16], [0, 0, 20, 18, 14]];
   Person besessen = Person();
   static AudioPlayer cache = AudioPlayer();
 
@@ -51,7 +51,7 @@ class Game {
     }
 
     if (isGameOver) {
-      throw Exception('Game over!');                                //GameOver
+       throw Exception('Game over!');                                //GameOver
       
     }
     if (zeit == playerTime[players]) {                                            //Zeit abgelaufen
@@ -154,7 +154,7 @@ class Game {
               break;
             }
           }
-          if (lastPressedButtonIndex == 7 && Random().nextInt(3) == 0) {
+          if (lastPressedButtonIndex == 7 && Random().nextInt(4) == 0) {
             buttonText = 'Oh nein du bist in den Fluss gefallen\nund wirst zum Fischer geschwemmt dein Zug ist beendet!';
             break;
           }
@@ -280,7 +280,7 @@ class Game {
                     strickleiter = 1;
                   }
                   else {
-                    buttonText = 'Du hast außversehen rückwärts gefuchtelt,\nie Strickleiter fällt hoch!';
+                    buttonText = 'Du hast außversehen rückwärts gefuchtelt,\ndie Strickleiter fällt hoch!';
                     strickleiter = 0;
                   }
                 }
@@ -302,7 +302,7 @@ class Game {
                 if (zeitZurueck == 0) {
                   if (random == 0) {
                     buttonText = 'Du hast die Zeit zurückgedreht! \n vielleicht ist dein Zauberstab Kaputt??';
-                    zeit = zeit - players*2;
+                    zeit = zeit - players*3;
                   }
                   else if (random == 1) {
                     buttonText = 'Du hast die Zeit vorgedreht!';
@@ -316,13 +316,35 @@ class Game {
                 if (zeitZurueck == 0) {
                   if (random < 2) {
                     buttonText = 'Du hast die Zeit zurückgedreht!';
-                    zeit = zeit - players*2;
+                    zeit = zeit - players*3;
                     zeitZurueck = 1;
                   }
                   else {
                     buttonText = 'Du hast die Zeit vorgedreht!';
                     zeit = zeit + players;
                   }
+                }
+                break;
+              case 6:
+                int random = Random().nextInt(2);
+                if (random == 0) {
+                  if (strickleiter == 0) {
+                    buttonText = 'Du findest einen Geheimen Schalter am Altar,\nes öffnet sich ein Geheimgang zu den Katakomben.';
+                    strickleiter = 1;
+                  }
+                  else {
+                    buttonText = 'Du bist gegen den Schalter gestoßen,\ndie Geheimtür schließt sich wieder!';
+                    strickleiter = 0;
+                  }
+                }
+                else {
+                  int items = Random().nextInt(4);
+                  if (items == 0) {
+                    zeit = zeit -2;
+                    buttonText = 'Der Priester hat dir einen Segen gegeben\ndu darfst 2 Extra Züge machen!';
+                    break;
+                  }
+                  buttonText = 'Nix passiert kannst du etwa nicht Zaubern?!';
                 }
                 break;
                 default:

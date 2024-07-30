@@ -82,7 +82,7 @@ showLoaderDialog(BuildContext context, buttonInfo, game) {
         arguments: [1],
       );
     }
-    if (buttonInfo >= 10) {
+    else if (buttonInfo >= 10) {
       AlertDialog alert = AlertDialog(
         content: Row(
           children: [
